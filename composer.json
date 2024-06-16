@@ -1,0 +1,27 @@
+{
+    "name": "harshpawar/laravel-passport",
+    "description": "Laravel passport authentication package easy installation.",
+    "type": "library",
+    "require": {
+        "laravel/framework": "^8.0",
+        "laravel/passport": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Harshpawar\\LaravelPassport\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Harsh Pawar",
+            "email": "harsh.pawar.in@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Harshpawar\\LaravelPassport\\PassportAuthServiceProvider"
+            ]
+        }
+    }
+}
