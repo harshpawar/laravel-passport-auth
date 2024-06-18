@@ -19,6 +19,8 @@ First, install this package:
 Next, move the files from vendor folder to root folder using below script
 
     php artisan vendor:publish --tag=passport-config
+    php artisan vendor:publish --tag=controllers
+
     php artisan migrate
     php artisan passport:install
 
@@ -30,20 +32,29 @@ Configure Passport in AuthServiceProvider:
     {
         $this->registerPolicies();
 
-        Passport::routes();
+        Passport::ignoreRoutes();
+
+
+        // Add Passport routes
+        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+        Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+
+        // Register Passport routes manually
+        if (! $this->app->routesAreCached()) {
+            require base_path('routes/api.php');
+        }
     }
 
 Use Middleware: Ensure your routes are protected by the auth:api middleware.
 
-    Passport::ignoreRoutes();
+    Route::middleware('auth:api')->group(function () {
+        // Protected routes
+    });
 
+Add config/auth.php guards details
 
-    // Add Passport routes
-    Passport::tokensExpireIn(now()->addDays(15));
-    Passport::refreshTokensExpireIn(now()->addDays(30));
-    Passport::personalAccessTokensExpireIn(now()->addMonths(6));
-
-    // Register Passport routes manually
-    if (! $this->app->routesAreCached()) {
-        require base_path('routes/api.php');
-    }
+    'api' => [
+        'driver' => 'passport',
+        'provider' => 'users',
+    ],
