@@ -3,7 +3,7 @@
     "description": "Laravel passport authentication package easy installation.",
     "type": "library",
     "require": {
-        "laravel/framework": "^10.*",
+        "laravel/framework": "^10.0",
         "laravel/passport": "^12.0"
     },
     "autoload": {
