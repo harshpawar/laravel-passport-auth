@@ -16,7 +16,7 @@ class PassportAuthServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
 
         $this->publishes([
-            __DIR__ . '/Controllers' => app_path('Http/Controllers'),
+            __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
         ], 'controllers');
     }
 }
