@@ -1,11 +1,12 @@
 <?php
-namespace Harshpawar\LaravelPassport\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Passport;
 
 class AuthController extends Controller
@@ -38,8 +39,12 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (auth()->attempt($credentials)) {
-            $token = auth()->user()->createToken('LaravelPassportAuth')->accessToken;
-            return response()->json(['token' => $token], 200);
+            $user = Auth::user();
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['message'] = "Login successfully.";
+            $success['user'] = $user;
+
+            return response()->json($success, 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
