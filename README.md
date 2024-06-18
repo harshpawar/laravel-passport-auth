@@ -35,6 +35,15 @@ Configure Passport in AuthServiceProvider:
 
 Use Middleware: Ensure your routes are protected by the auth:api middleware.
 
-    Route::middleware('auth:api')->group(function () {
-        // Protected routes
-    });
+    Passport::ignoreRoutes();
+
+
+    // Add Passport routes
+    Passport::tokensExpireIn(now()->addDays(15));
+    Passport::refreshTokensExpireIn(now()->addDays(30));
+    Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+
+    // Register Passport routes manually
+    if (! $this->app->routesAreCached()) {
+        require base_path('routes/api.php');
+    }
